@@ -108,9 +108,9 @@ echo "# This file is generated from service.sh to speed up load time" > "$OUTPUT
 # Get list of third party apps and specific system apps, then cache app name
 # Check Xposed module
 { 
-    pm list packages -3 2>/dev/null
-    pm list packages -s | grep -E "$SYSTEM_APP" 2>/dev/null || true
-} | awk -F: '{print $2}' | while read -r PACKAGE; do
+    pm list packages -3 | awk -F: '{print $2}' 2>/dev/null
+    pm list packages -s | awk -F: '{print $2}' | grep -Ex "$SYSTEM_APP" 2>/dev/null || true
+} | while read -r PACKAGE; do
     # Get APK path for the package
     APK_PATH=$(pm path "$PACKAGE" 2>/dev/null | head -n1 | awk -F: '{print $2}')
     APP_NAME=$(aapt dump badging "$APK_PATH" 2>/dev/null | grep "application-label:" | sed "s/application-label://g; s/'//g")

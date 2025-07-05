@@ -53,7 +53,6 @@
     <string name="menu_set_verified_boot_hash">Set Verified Boot Hash</string>
     <string name="menu_set_security_patch">Set Security Patch</string>
     <string name="menu_about">About</string>
-    <string name="menu_shortcut">Create home screen shortcut</string>
     <!-- Boot Hash -->
     <string name="boot_hash_title">Boot Hash</string>
     <string name="boot_hash_input_placeholder">Paste your verified Boot Hash here</string>
@@ -95,7 +94,6 @@
     <string name="prompt_no_file_selected">No file selected</string>
     <string name="prompt_system_app_not_found">System app not found</string>
     <string name="prompt_system_app_error">Failed to add system app</string>
-    <string name="prompt_shortcut_created">Home screen shortcut created</string>
     <!-- Security Patch -->
     <string name="security_patch_title">Security Patch</string>
     <string name="security_patch_advanced_mode">Advanced</string>

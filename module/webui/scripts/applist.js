@@ -62,6 +62,13 @@ export async function fetchAppList() {
                     packageName
                 };
             }
+            if (typeof ksu.getPackagesInfo === 'function') {
+                const info = JSON.parse(ksu.getPackagesInfo(`[${packageName}]`));
+                return {
+                    appName: info[0].appLabel,
+                    packageName
+                }
+            }
             if (typeof $packageManager !== 'undefined') {
                 const info = $packageManager.getApplicationInfo(packageName, 0, 0);
                 return {
@@ -105,6 +112,10 @@ function renderAppList(data) {
     loadingIndicator.style.display = "none";
     hideFloatingBtn(false);
     if (updateCard) appListContainer.appendChild(updateCard);
+    let showIcon = false;
+    if (typeof $packageManager !== 'undefined' || typeof ksu.getPackagesIcons === 'function') {
+        showIcon = true;
+    }
 
     // Append app
     const appendApps = (index) => {
@@ -115,9 +126,7 @@ function renderAppList(data) {
             setupModeMenu();
             updateCheckboxColor();
             applyRippleEffect();
-            if (typeof $packageManager !== 'undefined') {
-                setupIconIntersectionObserver();
-            }
+            if (showIcon) setupIconIntersectionObserver();
             return;
         }
 
@@ -147,7 +156,7 @@ function renderAppList(data) {
 
         const nameElement = appElement.querySelector(".name");
         nameElement.innerHTML = `
-            <div class="app-icon-container" style="display:${typeof $packageManager !== 'undefined' ? 'flex' : 'none'};">
+            <div class="app-icon-container" style="display:${showIcon ? 'flex' : 'none'};">
                 <div class="loader" data-package="${packageName}"></div>
                 <img src="" class="app-icon" data-package="${packageName}" />
             </div>
@@ -205,7 +214,14 @@ function loadIcons(packageName) {
         imgElement.src = iconCache.get(packageName);
         loader.style.display = 'none';
         imgElement.style.opacity = '1';
-    } else {
+    } else if (typeof ksu.getPackagesIcons === 'function') {
+        const app = JSON.parse(ksu.getPackagesIcons(`[${packageName}]`, 100));
+        console.log(app);
+        iconCache.set(packageName, app[0].icon);
+        imgElement.src = app[0].icon;
+        loader.style.display = 'none';
+        imgElement.style.opacity = '1';
+    } else if (typeof $packageManager !== 'undefined') {
         const stream = $packageManager.getApplicationIcon(packageName, 0, 0);
         wrapInputStream(stream)
             .then(r =>  r.arrayBuffer())

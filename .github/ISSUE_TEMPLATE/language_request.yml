@@ -33,6 +33,6 @@ body:
     attributes:
       label: Upload translated file (optional)
       description: Upload translated file based on template.xml if you have translated it
-      placeholder: translate the template in module/webui/locales/template.xml (optional)
+      placeholder: translate the template in module/webui/locales/template.xml (compress in zip format before upload)
     validations:
       required: false
