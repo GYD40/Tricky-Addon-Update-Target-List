@@ -1,6 +1,7 @@
 import { wrapInputStream } from 'webuix';
 import { exec, spawn, toast, listPackages, getPackagesInfo } from 'kernelsu-alt';
 import { basePath, loadingIndicator, appsWithExclamation, appsWithQuestion, checkSukiSu } from './main.js';
+import fallbackIcon from '../icon.png';
 
 const appTemplate = document.getElementById('app-template').content;
 export const appListContainer = document.getElementById('apps-list');
@@ -232,7 +233,9 @@ function loadIcons(packageName) {
             imgElement.style.opacity = '1';
         }
         imgElement.onerror = () => {
-            // tbc
+            imgElement.src = fallbackIcon;
+            loader.style.display = 'none';
+            imgElement.style.opacity = '1';
         }
         imgElement.src = "ksu://icon/" + packageName;
     } else if (iconCache.has(packageName)) {
